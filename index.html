@@ -1,69 +1,94 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <cstdlib>
-#include <ctime>
-#include <limits>
-
-int main() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ideal Crush Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ideal Crush Finder</h1>
+    <p>This program is mathematically, scientifically designed to determine your ideal crush!</p>
     
-    std::vector<std::string> crushes = {"ako sayo", "tayo", "us", "tayong dalawa", "tayo together", "ang surname ko sayo", "...saka uy", "...ngi naghulat"};
-    
-    std::srand(std::time(0));
+    <div id="app">
+        <div id="question">
+            <p>Hello! May I ask you something? (yes or no):</p>
+            <input type="text" id="yesorno" placeholder="Type yes or no">
+            <button onclick="startProgram()">Submit</button>
+        </div>
+        <div id="form" style="display: none;">
+            <p>Enter your details:</p>
+            <input type="text" id="name" placeholder="Your name"><br>
+            <input type="text" id="age" placeholder="Your age"><br>
+            <input type="text" id="fave_color" placeholder="Your favorite color"><br>
+            <input type="text" id="ideal_ht" placeholder="Ideal height (taller or shorter)"><br>
+            <input type="text" id="ideal_hair" placeholder="Ideal hair color"><br>
+            <input type="text" id="ideal_eyeclr" placeholder="Ideal eye color"><br>
+            <input type="text" id="ideal_age" placeholder="Ideal age gap (older, younger, same age)"><br>
+            <button onclick="findCrush()">Find My Crush</button>
+        </div>
+        <div id="result" style="display: none;">
+            <h2>Your Ideal Crush</h2>
+            <p id="crushResult"></p>
+        </div>
+    </div>
 
-    std::string name;
-    std::string age;
-    std::string fave_color;
-    std::string ideal_ht;
-    std::string ideal_hair;
-    std::string ideal_eyeclr;
-    std::string ideal_age;
-    std::string yesorno;
-    bool pwde_ka_ba;
+    <script>
+        const crushes = [
+            "ako sayo", 
+            "tayo", 
+            "us", 
+            "tayong dalawa", 
+            "tayo together", 
+            "ang surname ko sayo", 
+            "...saka uy", 
+            "...ngi naghulat"
+        ];
 
-    std::cout << "Hello! May I ask you something? (yes or no): ";
-    std::cin >> yesorno;
+        function startProgram() {
+            const yesorno = document.getElementById("yesorno").value.toLowerCase();
+            if (yesorno === "yes") {
+                document.getElementById("question").style.display = "none";
+                document.getElementById("form").style.display = "block";
+            } else if (yesorno === "no") {
+                alert("Ay sige wag na, wag nalang! Hahaha eme.");
+            } else {
+                alert("yes or no lang nganii haha. Ulit ta, from the top!");
+            }
+        }
 
-    while (yesorno != "yes" && yesorno != "no") {
-        std::cout << "yes or no lang nganii haha. Ulit ta, from the top! (yes or no)?: ";
-        std::cin >> yesorno;
-    }
+        function findCrush() {
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const fave_color = document.getElementById("fave_color").value;
+            const ideal_ht = document.getElementById("ideal_ht").value;
+            const ideal_hair = document.getElementById("ideal_hair").value;
+            const ideal_eyeclr = document.getElementById("ideal_eyeclr").value;
+            const ideal_age = document.getElementById("ideal_age").value;
 
-    if (yesorno == "yes") {
-         pwde_ka_ba = true;
-      } else if (yesorno == "no") {
-         pwde_ka_ba = false;
-         std::cout << "Ay sige wag na, wag nalang! Hahaha eme." << std::endl;
-         return 1;
-      }
+            if (!name || !age || !fave_color || !ideal_ht || !ideal_hair || !ideal_eyeclr || !ideal_age) {
+                alert("Please fill out all the fields!");
+                return;
+            }
 
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            const randomIndex = Math.floor(Math.random() * crushes.length);
+            const ideal = crushes[randomIndex];
 
-    std::cout << "This program is mathematically, scientifically designed to determine your ideal crush. Please enter your name: ";
-    std::getline(std::cin, name);
-
-    std::cout << "Age: ";
-    std::getline(std::cin, age);
-
-    std::cout << "Your fave color: ";
-    std::getline(std::cin, fave_color);
-
-    std::cout << "Ideal height, taller ot shorter than you?: ";
-    std::getline(std::cin, ideal_ht);
-
-    std::cout << "Ideal hair color: ";
-    std::getline(std::cin, ideal_hair);
-
-    std::cout << "Ideal eye color: ";
-    std::getline(std::cin, ideal_eyeclr);
-
-    std::cout << "Ideal age gap (older, younger, or the same age as you)?: ";
-    std::getline(std::cin, ideal_age);
-
-    int random_list = std::rand() % crushes.size();
-    std::string ideal = crushes[random_list];
-
-    std::cout << "Based on you answers, bagay talaga " << ideal << std::endl;
-
-    return 0;
-}
+            document.getElementById("form").style.display = "none";
+            document.getElementById("result").style.display = "block";
+            document.getElementById("crushResult").innerText = `Based on your answers, bagay talaga ${ideal}`;
+        }
+    </script>
+</body>
+</html>
